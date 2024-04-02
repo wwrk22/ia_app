@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-int main(int argc, char* argv[]) {
+int main([[maybe_unused]]int argc, [[maybe_unused]]char* argv[]) {
 	std::cout << "Investment Analysis version "
 		<< IA_App_VERSION_MAJOR << "."
 		<< IA_App_VERSION_MINOR << "."

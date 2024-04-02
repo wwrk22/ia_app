@@ -13,10 +13,19 @@ if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
 endif()
 
 # --------------------------------------------------------------------------------------------------
-# C++ standard 17
+# INTERFACE lib for specifying C++ standard
 # --------------------------------------------------------------------------------------------------
 add_library(ia_app_compiler_flags INTERFACE)
 target_compile_features(ia_app_compiler_flags INTERFACE cxx_std_17)
+
+# Set compile options for compiling C++ with GNU compiler
+set(gcc_like_cxx $<COMPILE_LANG_AND_ID:CXX,GNU>)
+target_compile_options(ia_app_compiler_flags
+	INTERFACE
+		$<${gcc_like_cxx}:
+			$<BUILD_INTERFACE:
+				-ggdb;-pedantic-errors;-Wall;-Weffc++;-Wextra;-Wconversion;-Wsign-conversion;-Werror>>)
+
 
 # Variables in format @SOME_VAR@ are replaced by the variables in this CMakeLists.txt when the
 # output file is produced. The output file will be written to the project binary directory, so the
