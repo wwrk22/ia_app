@@ -1,3 +1,12 @@
+# VIM swp files
+*.swp
+
+# dependencies
+lib/
+
+# build output
+build/
+
 # Prerequisites
 *.d
 
