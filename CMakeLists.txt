@@ -12,8 +12,11 @@ if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
 	set(DEFAULT_BUILD_TYPE "Debug")
 endif()
 
-set(CMAKE_CXX_STANDARD 17) # Desired c++ standard
-set(CMAKE_CXX_STANDARD_REQUIRED true) # Require the compiler work with the designated standard
+# --------------------------------------------------------------------------------------------------
+# C++ standard 17
+# --------------------------------------------------------------------------------------------------
+add_library(ia_app_compiler_flags INTERFACE)
+target_compile_features(ia_app_compiler_flags INTERFACE cxx_std_17)
 
 # Variables in format @SOME_VAR@ are replaced by the variables in this CMakeLists.txt when the
 # output file is produced. The output file will be written to the project binary directory, so the
@@ -38,4 +41,6 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
-		IA_Metric)
+		IA_Metric
+	PUBLIC
+		ia_app_compiler_flags)
