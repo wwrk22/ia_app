@@ -18,9 +18,16 @@ endif()
 add_library(ia_app_compiler_flags INTERFACE)
 target_compile_features(ia_app_compiler_flags INTERFACE cxx_std_17)
 
+# --------------------------------------------------------------------------------------------------
 # Set compile options for compiling C++ with GNU compiler
+# --------------------------------------------------------------------------------------------------
 set(gcc_like_cxx $<COMPILE_LANG_AND_ID:CXX,GNU>)
+
+# Since ia_app_compiler_flags is used by the target IA_App in the same build-system, the generator-
+# expression $<BUILD_INTERFACE:...> evaluates to its content, which in this case is a set of
+# warnings.
 target_compile_options(ia_app_compiler_flags
+	# We can only set INTERFACE properties since the ia_app_compiler_flags is an INTERFACE target
 	INTERFACE
 		$<${gcc_like_cxx}:
 			$<BUILD_INTERFACE:
@@ -46,10 +53,9 @@ add_executable(${PROJECT_NAME} main.cpp)
 # repo's own CMakeLists.txt makes the include directory public for client.
 target_include_directories(${PROJECT_NAME}
 	PRIVATE
-		${PROJECT_BINARY_DIR})
+		${PROJECT_BINARY_DIR}) # For IA_AppConfig.h
 
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
-		IA_Metric
-	PUBLIC
+		IA_Metric	
 		ia_app_compiler_flags)
